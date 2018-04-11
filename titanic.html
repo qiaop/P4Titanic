@@ -11927,7 +11927,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -11942,7 +11942,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -11966,7 +11966,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#导入train.csv</span>
@@ -11985,7 +11985,7 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[58]:</div>
+<div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -12197,7 +12197,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#统计缺失值</span>
@@ -12214,7 +12214,7 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[59]:</div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -12252,7 +12252,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#用平均年龄代替空值</span>
@@ -12307,6 +12307,147 @@ memory usage: 83.6+ KB
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">print_result</span><span class="p">(</span><span class="n">grouped_survived_factors</span><span class="p">,</span><span class="n">grouped_each_group_count</span><span class="p">,</span><span class="n">survived_rate</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    输出数据，存活数，总人数和存活率</span>
+<span class="sd">    grouped_survived_factors:存活数</span>
+<span class="sd">    grouped_each_group_count:总人数</span>
+<span class="sd">    survived_rate:存活率</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">grouped_each_group_count</span><span class="p">,</span><span class="n">grouped_survived_factors</span><span class="p">,</span><span class="n">survived_rate</span><span class="p">],</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">,</span><span class="s1">&#39;survived&#39;</span><span class="p">,</span><span class="s1">&#39;rate&#39;</span><span class="p">]</span>
+    <span class="k">print</span> <span class="n">result</span>
+    
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">single_factor_explore</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span><span class="n">title</span><span class="p">,</span><span class="n">xlabel</span><span class="p">,</span><span class="n">ylabel</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    单个特征因素的数据探索</span>
+<span class="sd">    factor:特征</span>
+<span class="sd">    title:图表标题</span>
+<span class="sd">    xlabel:图表X轴标签</span>
+<span class="sd">    ylabel:图表Y轴标签</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">#按照单个因素分组</span>
+    <span class="n">df_grouped</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[[</span><span class="s1">&#39;Survived&#39;</span><span class="p">,</span><span class="n">factor</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">factor</span><span class="p">)</span>
+    <span class="c1">#每组存活人数</span>
+    <span class="n">grouped_survived_factors</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="c1">#每组总人数</span>
+    <span class="n">grouped_each_group_count</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="c1">#存活率</span>
+    <span class="n">survived_rate</span> <span class="o">=</span> <span class="n">grouped_survived_factors</span><span class="o">/</span><span class="n">grouped_each_group_count</span>
+    <span class="c1">#打印结果</span>
+    <span class="n">print_result</span><span class="p">(</span><span class="n">grouped_survived_factors</span><span class="p">,</span><span class="n">grouped_each_group_count</span><span class="p">,</span><span class="n">survived_rate</span><span class="p">)</span>
+    <span class="c1">#条形图</span>
+    <span class="n">survived_rate</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+    <span class="c1">#图表</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">interval_factor_explore</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span><span class="n">factor_group</span><span class="p">,</span><span class="n">bins</span><span class="p">,</span><span class="n">blabels</span><span class="p">,</span><span class="n">title</span><span class="p">,</span><span class="n">xlabel</span><span class="p">,</span><span class="n">ylabel</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    区间因素的数据探索</span>
+<span class="sd">    factor:特征</span>
+<span class="sd">    factor_group:特征分组名称</span>
+<span class="sd">    bins:分组区间</span>
+<span class="sd">    blabels:区间标签</span>
+<span class="sd">    title:图表标题</span>
+<span class="sd">    xlabel:图表X轴标签</span>
+<span class="sd">    ylabel:图表Y轴标签</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">#按照区间因素分组</span>
+    <span class="n">train_df</span><span class="p">[</span><span class="n">factor_group</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">train_df</span><span class="p">[</span><span class="n">factor</span><span class="p">],</span><span class="n">bins</span><span class="p">,</span><span class="n">labels</span> <span class="o">=</span> <span class="n">blabels</span><span class="p">)</span>
+    <span class="n">factor_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">train_df</span><span class="p">[</span><span class="s1">&#39;Survived&#39;</span><span class="p">],</span><span class="n">train_df</span><span class="p">[</span><span class="n">factor_group</span><span class="p">]],</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">df_grouped</span> <span class="o">=</span> <span class="n">factor_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">factor_group</span><span class="p">)</span>
+    
+    <span class="n">grouped_survived_factors</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">grouped_each_group_count</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+    <span class="n">survived_rate</span> <span class="o">=</span> <span class="n">grouped_survived_factors</span><span class="o">/</span><span class="n">grouped_each_group_count</span>
+    <span class="n">print_result</span><span class="p">(</span><span class="n">grouped_survived_factors</span><span class="p">,</span><span class="n">grouped_each_group_count</span><span class="p">,</span><span class="n">survived_rate</span><span class="p">)</span>
+    <span class="c1">#条形图</span>
+    <span class="n">survived_rate</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+    <span class="c1">#图表</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+    <span class="c1">#饼状图</span>
+    <span class="n">survived_rate</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;pie&#39;</span><span class="p">,</span><span class="n">subplots</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">double_factor_explore</span><span class="p">(</span><span class="n">factor1</span><span class="p">,</span><span class="n">factor2</span><span class="p">,</span><span class="n">title</span><span class="p">,</span><span class="n">xlabel</span><span class="p">,</span><span class="n">ylabel</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    双特征因素的数据探索</span>
+<span class="sd">    factor1:特征1</span>
+<span class="sd">    factor2:特征2</span>
+<span class="sd">    title:图表标题</span>
+<span class="sd">    xlabel:图表X轴标签</span>
+<span class="sd">    ylabel:图表Y轴标签</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">#按照双因素分组</span>
+    <span class="n">df_grouped</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">factor1</span><span class="p">,</span><span class="n">factor2</span><span class="p">])[</span><span class="s1">&#39;Survived&#39;</span><span class="p">]</span>
+    <span class="c1">#每组存活人数</span>
+    <span class="n">grouped_survived_factors</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="c1">#每组总人数</span>
+    <span class="n">grouped_each_group_count</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="c1">#存活率</span>
+    <span class="n">survived_rate</span> <span class="o">=</span> <span class="n">grouped_survived_factors</span><span class="o">/</span><span class="n">grouped_each_group_count</span>
+    <span class="c1">#打印结果</span>
+    <span class="n">print_result</span><span class="p">(</span><span class="n">grouped_survived_factors</span><span class="p">,</span><span class="n">grouped_each_group_count</span><span class="p">,</span><span class="n">survived_rate</span><span class="p">)</span>
+    <span class="c1">#条形图</span>
+    <span class="n">survived_rate</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+    <span class="c1">#图表</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -12317,22 +12458,10 @@ memory usage: 83.6+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">df_grouped</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[[</span><span class="s1">&#39;Survived&#39;</span><span class="p">,</span><span class="s1">&#39;Pclass&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Pclass&#39;</span><span class="p">)</span>
-<span class="n">grouped_survived_factors</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">grouped_each_group_count</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-
-<span class="n">survived_rate</span> <span class="o">=</span> <span class="n">grouped_survived_factors</span><span class="o">/</span><span class="n">grouped_each_group_count</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">grouped_each_group_count</span><span class="p">,</span><span class="n">grouped_survived_factors</span><span class="p">,</span><span class="n">survived_rate</span><span class="p">],</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">result</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">,</span><span class="s1">&#39;survived&#39;</span><span class="p">,</span><span class="s1">&#39;rate&#39;</span><span class="p">]</span>
-<span class="k">print</span> <span class="n">result</span>
-<span class="n">survived_rate</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Pclass Survived Rate&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;facor(Pclass)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">single_factor_explore</span><span class="p">(</span><span class="s1">&#39;Pclass&#39;</span><span class="p">,</span><span class="s1">&#39;Pclass Survived Rate&#39;</span><span class="p">,</span><span class="s1">&#39;facor(Pclass)&#39;</span><span class="p">,</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12524,23 +12653,10 @@ vWfzWJMAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">df_grouped</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[[</span><span class="s1">&#39;Survived&#39;</span><span class="p">,</span><span class="s1">&#39;Sex&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Sex&#39;</span><span class="p">)</span>
-    <span class="c1">#统计每组生存者总数</span>
-<span class="n">grouped_survived_factors</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">grouped_each_group_count</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-
-<span class="n">survived_rate</span> <span class="o">=</span> <span class="n">grouped_survived_factors</span><span class="o">/</span><span class="n">grouped_each_group_count</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">grouped_each_group_count</span><span class="p">,</span><span class="n">grouped_survived_factors</span><span class="p">,</span><span class="n">survived_rate</span><span class="p">],</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">result</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">,</span><span class="s1">&#39;survived&#39;</span><span class="p">,</span><span class="s1">&#39;rate&#39;</span><span class="p">]</span>
-<span class="k">print</span> <span class="n">result</span>
-<span class="n">survived_rate</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Sex Survived Rate&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;facor(Sex)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">single_factor_explore</span><span class="p">(</span><span class="s1">&#39;Sex&#39;</span><span class="p">,</span><span class="s1">&#39;Sex Survived Rate&#39;</span><span class="p">,</span><span class="s1">&#39;facor(Sex)&#39;</span><span class="p">,</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12742,29 +12858,13 @@ mJlZxscUzMws41AwM7OMQ8HMzDIOBTMzyzgUzMws87+PV9eVvQewfwAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">90</span><span class="p">]</span>
 <span class="n">blabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;child&#39;</span><span class="p">,</span><span class="s1">&#39;young&#39;</span><span class="p">,</span><span class="s1">&#39;midlife&#39;</span><span class="p">,</span><span class="s1">&#39;aged&#39;</span><span class="p">]</span>
-<span class="n">train_df</span><span class="p">[</span><span class="s1">&#39;AgeLevel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">train_df</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">],</span><span class="n">bins</span><span class="p">,</span><span class="n">labels</span> <span class="o">=</span> <span class="n">blabels</span><span class="p">)</span>
-<span class="n">factor_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">train_df</span><span class="p">[</span><span class="s1">&#39;Survived&#39;</span><span class="p">],</span><span class="n">train_df</span><span class="p">[</span><span class="s1">&#39;AgeLevel&#39;</span><span class="p">]],</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">df_grouped</span> <span class="o">=</span> <span class="n">factor_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;AgeLevel&#39;</span><span class="p">)</span>
 
-<span class="n">grouped_survived_factors</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">grouped_each_group_count</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-
-<span class="n">survived_rate</span> <span class="o">=</span> <span class="n">grouped_survived_factors</span><span class="o">/</span><span class="n">grouped_each_group_count</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">grouped_each_group_count</span><span class="p">,</span><span class="n">grouped_survived_factors</span><span class="p">,</span><span class="n">survived_rate</span><span class="p">],</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">result</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">,</span><span class="s1">&#39;survived&#39;</span><span class="p">,</span><span class="s1">&#39;rate&#39;</span><span class="p">]</span>
-<span class="k">print</span> <span class="n">result</span>
-
-<span class="n">survived_rate</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Age Survived Rate&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;facor(Age)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">interval_factor_explore</span><span class="p">(</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span><span class="s1">&#39;AgeLevel&#39;</span><span class="p">,</span><span class="n">bins</span><span class="p">,</span><span class="n">blabels</span><span class="p">,</span><span class="s1">&#39;Age Survived Rate&#39;</span><span class="p">,</span><span class="s1">&#39;facor(Age)&#39;</span><span class="p">,</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12952,6 +13052,221 @@ AAAASUVORK5CYII=
 
 </div>
 
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+RK5CYII=
+"
+>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -12961,7 +13276,7 @@ AAAASUVORK5CYII=
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>X轴代表年龄段，Y轴代表存活率</li>
+<li>条形图X轴代表年龄段，Y轴代表存活率</li>
 <li>child存活率58.44%，young存活率35.85%，midlife存活率40.00%，aged存活率22.72%</li>
 </ul>
 
@@ -12978,22 +13293,10 @@ AAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">df_grouped</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Pclass&#39;</span><span class="p">,</span><span class="s1">&#39;Sex&#39;</span><span class="p">])[</span><span class="s1">&#39;Survived&#39;</span><span class="p">]</span>
-<span class="n">grouped_survived_factors</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">grouped_each_group_count</span> <span class="o">=</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-
-<span class="n">survived_rate</span> <span class="o">=</span> <span class="n">grouped_survived_factors</span><span class="o">/</span><span class="n">grouped_each_group_count</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">grouped_each_group_count</span><span class="p">,</span><span class="n">grouped_survived_factors</span><span class="p">,</span><span class="n">survived_rate</span><span class="p">],</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">result</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">,</span><span class="s1">&#39;survived&#39;</span><span class="p">,</span><span class="s1">&#39;rate&#39;</span><span class="p">]</span>
-<span class="k">print</span> <span class="n">result</span>
-<span class="n">survived_rate</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Pclass + Sex Survived Rate&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;factor(Pclass+Sex)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">double_factor_explore</span><span class="p">(</span><span class="s1">&#39;Pclass&#39;</span><span class="p">,</span><span class="s1">&#39;Sex&#39;</span><span class="p">,</span><span class="s1">&#39;Pclass + Sex Survived Rate&#39;</span><span class="p">,</span><span class="s1">&#39;factor(Pclass+Sex)&#39;</span><span class="p">,</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
